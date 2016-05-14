@@ -5,22 +5,24 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: sbeline <sbeline@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2014/11/05 12:34:01 by sbeline           #+#    #+#             */
-/*   Updated: 2015/01/07 12:45:12 by sbeline          ###   ########.fr       */
+/*   Created: 2015/03/16 15:49:21 by sbeline           #+#    #+#             */
+/*   Updated: 2015/03/16 15:50:34 by sbeline          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Includes/libft.h"
 
-char	*ft_strchr(const char *s, int c)
+int		ft_strchr(char *s, char c)
 {
-	while (*s)
+	int		i;
+
+	i = 1;
+	while (*s && *s != c)
 	{
-		if (*s == c)
-			return ((char*)s);
 		s++;
+		i++;
 	}
-	if (*s == c)
-		return ((char*)s);
-	return (NULL);
+	if (!*s)
+		return (0);
+	return (i);
 }

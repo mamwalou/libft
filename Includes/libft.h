@@ -6,7 +6,7 @@
 /*   By: sbeline <sbeline@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/15 17:06:24 by sbeline           #+#    #+#             */
-/*   Updated: 2015/10/29 09:10:08 by sbeline          ###   ########.fr       */
+/*   Updated: 2016/05/14 18:47:26 by sbeline          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,17 @@
 # include <limits.h>
 # define BUF_SIZE 1496
 
+typedef	struct		s_fd
+{
+	int				fd;
+	int				nl;
+	size_t			pos_nl;
+	int				ret;
+	char			*buf;
+	struct s_fd		*next;
+}					t_fd;
+
+int					get_next_line(int fd, char **line);
 int					ft_lenghtunint(unsigned int nb);
 int					ft_lenghtlong(long long ll);
 int					ft_lenghtunlong(unsigned long long ll);
@@ -60,7 +71,8 @@ void				ft_putendl(char const *s);
 void				ft_putendl_fd(char const *s, int fd);
 char				*ft_strcat(char *s1, const char *s2);
 size_t				ft_strlcat(char *dst, const char *src, size_t size);
-char				*ft_strchr(const char *s, int c);
+int					ft_strchr(char *s, char c);
+void				ft_strmove(char **s, int pos);
 char				*ft_strrchr(const char *s, int c);
 char				*ft_strstr(const char *s1, const char *s2);
 char				*ft_strnstr(const char *s1, const char *s2, size_t n);
@@ -86,7 +98,7 @@ char				*ft_strdup(const char *s1);
 char				*ft_strndup(char *s, int begin, int end);
 void				*ft_memalloc(size_t size);
 void				ft_memdel(void **ap);
-char				*ft_strnew(size_t size);
+char				*ft_strnew(size_t size, const char *s);
 char				*ft_stradd(char **s1, char **s2);
 void				ft_strdel(char **as);
 void				ft_strclr(char *s);

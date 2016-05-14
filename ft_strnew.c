@@ -5,25 +5,25 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: sbeline <sbeline@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2014/11/08 13:13:07 by sbeline           #+#    #+#             */
-/*   Updated: 2015/07/22 14:28:03 by sbeline          ###   ########.fr       */
+/*   Created: 2015/03/16 15:47:55 by sbeline           #+#    #+#             */
+/*   Updated: 2016/05/14 18:47:25 by sbeline          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Includes/libft.h"
+#include "includes/libft.h"
 
-char	*ft_strnew(size_t size)
+char	*ft_strnew(size_t size, const char *s)
 {
-	char	*str;
-	size_t	index;
+	char	*tmp;
+	void	*begin;
 
-	index = 0;
-	if ((str = (char*)malloc(sizeof(char) * size)) == NULL)
-		return (NULL);
-	while (index <= size)
+	if ((tmp = (char*)malloc(sizeof(char) * (size + 1))))
 	{
-		str[index] = '\0';
-		index++;
+		begin = tmp;
+		while (*s && size--)
+			*tmp++ = *s++;
+		*tmp = '\0';
+		return (begin);
 	}
-	return (str);
+	return (NULL);
 }

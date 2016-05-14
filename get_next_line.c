@@ -5,63 +5,88 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: sbeline <sbeline@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/01/07 10:16:07 by sbeline           #+#    #+#             */
-/*   Updated: 2015/02/11 15:49:45 by sbeline          ###   ########.fr       */
+/*   Created: 2015/03/16 16:16:15 by sbeline           #+#    #+#             */
+/*   Updated: 2016/05/14 18:18:14 by sbeline          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Includes/libft.h"
 
-static char		*ft_realloc(char *dest, char *source, size_t len)
+static t_fd		*new_data_fd(int const fd)
 {
-	char		*cpy;
+	t_fd	*new;
 
-	cpy = ft_strnew(ft_strlen(dest) + len);
-	cpy = ft_strcpy(cpy, dest);
-	cpy = ft_strncat(cpy, source, len);
-	free(dest);
-	return (cpy);
+	if ((new = (t_fd *)malloc(sizeof(t_fd))) != NULL)
+	{
+		new->fd = fd;
+		new->nl = 0;
+		new->pos_nl = 0;
+		new->ret = 0;
+		new->buf = NULL;
+		new->next = NULL;
+	}
+	return (new);
 }
 
-void			new_line(char **buff, char ***line)
+static t_fd		*get_data_fd(t_fd **lst_fd, int const fd)
 {
-	*buff = ft_strnew(BUF_SIZE);
-	**line = ft_strnew(0);
+	t_fd	*tmp;
+
+	if (*lst_fd == NULL)
+		return ((*lst_fd = new_data_fd(fd)));
+	tmp = *lst_fd;
+	while (tmp)
+	{
+		if (tmp->fd == fd)
+			return (tmp);
+		else if (tmp->next == NULL)
+			return ((tmp->next = new_data_fd(fd)));
+		tmp = tmp->next;
+	}
+	return (NULL);
 }
 
-static int		get_line(char **line, char **buff, char *ptr_end, size_t len)
+static void		ft_read(t_fd *d_fd)
 {
-	char		*str;
+	char		*tmp;
 
-	*line = ft_realloc(*line, *buff, len);
-	str = ft_strnew(BUF_SIZE);
-	str = ft_strcpy(str, ptr_end + 1);
-	free(*buff);
-	*buff = str;
-	return (1);
+	tmp = (char *)malloc(sizeof(char) * (BUF_SIZE + 1));
+	if ((d_fd->ret = read(d_fd->fd, tmp, BUF_SIZE)) == -1)
+		return ;
+	tmp[d_fd->ret] = '\0';
+	d_fd->buf = ft_stradd(&d_fd->buf, &tmp);
+	while ((d_fd->pos_nl = ft_strchr(d_fd->buf, '\n')) == 0 && d_fd->ret > 0)
+	{
+		tmp = (char *)malloc(sizeof(char) * (BUF_SIZE + 1));
+		if ((d_fd->ret = read(d_fd->fd, tmp, BUF_SIZE)) == -1)
+			return ;
+		tmp[d_fd->ret] = '\0';
+		d_fd->buf = ft_stradd(&d_fd->buf, &tmp);
+	}
+	if (d_fd->ret > 0)
+		d_fd->ret = 1;
 }
 
 int				get_next_line(int const fd, char **line)
 {
-	static char *buff = NULL;
-	int			nb_read;
-	char		*ptr;
+	static t_fd		*lst_fd = NULL;
+	t_fd			*d_fd;
 
-	if (buff)
+	if (fd < 0 || line == NULL || (d_fd = get_data_fd(&lst_fd, fd)) == NULL)
+		return (-1);
+	if (d_fd->buf == NULL)
+		d_fd->buf = ft_strnew(BUF_SIZE + 1, "");
+	if ((d_fd->pos_nl = ft_strchr(d_fd->buf, '\n')) == 0)
+		ft_read(d_fd);
+	if (d_fd->ret == 0 && d_fd->pos_nl == 0)
+		d_fd->pos_nl = ft_strlen(d_fd->buf) + 1;
+	if (d_fd->ret != -1 && d_fd->pos_nl != 0)
 	{
-		*line = ft_strnew(0);
-		if ((ptr = ft_strchr(buff, '\n')))
-			return (get_line(line, &buff, ptr, ptr - buff));
-		*line = ft_realloc(*line, buff, ft_strlen(buff));
+		*line = ft_strsub(d_fd->buf, 0, d_fd->pos_nl - 1);
+		ft_strmove(&(d_fd->buf), d_fd->pos_nl);
+		d_fd->pos_nl = 0;
+		if (*d_fd->buf == '\0' && d_fd->ret == 0)
+			ft_strdel(&(d_fd->buf));
 	}
-	else
-		new_line(&buff, &line);
-	while ((nb_read = read(fd, buff, BUF_SIZE)) > 0)
-	{
-		buff[nb_read] = '\0';
-		if ((ptr = ft_strchr(buff, '\n')))
-			return (get_line(line, &buff, ptr, ptr - buff));
-		*line = ft_realloc(*line, buff, nb_read);
-	}
-	return (nb_read);
+	return (d_fd->ret);
 }
