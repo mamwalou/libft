@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbeline <sbeline@student.42.fr>            +#+  +:+       +#+        */
+/*   By: salomon <salomon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/16 15:47:55 by sbeline           #+#    #+#             */
-/*   Updated: 2016/05/14 18:47:25 by sbeline          ###   ########.fr       */
+/*   Updated: 2016/05/15 03:09:50 by salomon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/libft.h"
+#include "Includes/libft.h"
 
 char	*ft_strnew(size_t size, const char *s)
 {

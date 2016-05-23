@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbeline <sbeline@student.42.fr>            +#+  +:+       +#+        */
+/*   By: salomon <salomon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/15 17:06:24 by sbeline           #+#    #+#             */
-/*   Updated: 2016/05/14 18:47:26 by sbeline          ###   ########.fr       */
+/*   Updated: 2016/05/22 17:18:21 by salomon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,10 @@ typedef	struct		s_fd
 	struct s_fd		*next;
 }					t_fd;
 
+
+char				*ft_strndup(char *s, int begin, int end);
+char				*ft_strtrijoin(const char *s1, const char *s2,
+									const char *s3);
 int					get_next_line(int fd, char **line);
 int					ft_lenghtunint(unsigned int nb);
 int					ft_lenghtlong(long long ll);
@@ -112,7 +116,7 @@ char				*ft_strsub(char const *s, unsigned int start, size_t len);
 char				*ft_strjoin(char const *s1, char const *s2);
 char				*ft_strnjoin(char *s1, char *s2, int begin,int end);
 char				*ft_strtrim(char const *s);
-char				**ft_strsplit(char const *s, char c);
+int					ft_strsplit(char ***dst,char const *s, char c);
 int					ft_strisdigit(char *str);
 int					get_next_line(int fd, char **line);
 

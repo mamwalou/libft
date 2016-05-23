@@ -3,92 +3,77 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strsplit.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbeline <sbeline@student.42.fr>            +#+  +:+       +#+        */
+/*   By: salomon <salomon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/05 14:19:40 by sbeline           #+#    #+#             */
-/*   Updated: 2015/10/30 08:34:53 by sbeline          ###   ########.fr       */
+/*   Updated: 2016/05/22 21:36:39 by salomon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Includes/libft.h"
+#include <stdio.h>
 
-static char		*ft_strtri(char const *s, char c)
+static int		ft_stspchr(char *s, char c)
 {
-	int			i;
-	int			j;
-	int			len;
-	int			size;
-	char		*tmp;
+	int		i;
 
-	i = 0;
-	j = 0;
-	if (!s)
-		return (NULL);
-	len = ft_strlen(s) - 1;
-	while (s[len] == c)
-		len--;
-	while (s[i] == c)
+	i = 1;
+	while (*s && *s != c)
+	{
+		s++;
 		i++;
-	size = len - i;
-	if (size < 0)
-		size = 0;
-	tmp = (char *)malloc(sizeof(char) * size + 1);
-	if (!tmp)
-		return (NULL);
-	while (i <= len)
-		tmp[j++] = s[i++];
-	tmp[j] = '\0';
-	return (tmp);
+	}
+	return (i);
 }
 
-static char		**ft_split(char *tmp, char **dst, char c)
+static int		find_occur(const char *s, char c)
 {
-	int			i;
-	int			j;
+	int			ret;
 
-	i = 0;
-	j = 0;
-	if (tmp[i] == '\0')
-		dst[j] = NULL;
-	while (*tmp)
+	ret = 0;
+	while (*s)
 	{
-		while (*tmp == c)
+		if (*s == c)
 		{
-			if (*(tmp + 1) != c)
-			{
-				dst[j++][i] = '\0';
-				i = 0;
-			}
-			tmp++;
+			ret++;
+			while (*s == c)
+				*s++;
 		}
-		dst[j][i++] = *tmp++;
+		s++;
 	}
-	dst[j + 1] = NULL;
+	return(ret);
+}
+
+char			*split(char *s, int pos,char c)
+{
+	int len;
+	char *dst;
+
+	len = ft_stspchr(s, c);
+	dst = ft_strndup(s, pos, len - 1);
 	return (dst);
 }
 
-char			**ft_strsplit(char const *s, char c)
+int				ft_strsplit(char ***dst,char const *s, char c)
 {
-	char		**dst;
-	char		*tmp;
-	int			len;
-	int			i;
+	int pos;
+	int i;
+	int len;
 
+
+	if (!*s)
+		return (0);
+	len = find_occur(s, c) + 1;
+	*dst = malloc(sizeof(char*) * (len + 1));
+	//ft_putnbr(len);
 	i = 0;
-	if (!s)
-		return (NULL);
-	len = ft_strlen(s) + 1;
-	dst = (char **)malloc(sizeof(char *) * len);
-	if (!dst)
-		return (NULL);
+	pos = 0;
 	while (i < len)
 	{
-		dst[i] = (char *)malloc(sizeof(char) * len);
-		if (!dst[i])
-			return (NULL);
+		dst[0][i] = split((char*)s ,pos, c);
+		s = ft_strrchr(s, c);
 		i++;
 	}
-	tmp = ft_strtri(s, c);
-	dst = ft_split(tmp, dst, c);
-	return (dst);
+	dst[i + 1] = NULL;
+	return (len);
 }

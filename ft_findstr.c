@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_findstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbeline <sbeline@student.42.fr>            +#+  +:+       +#+        */
+/*   By: salomon <salomon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/13 16:29:00 by sbeline           #+#    #+#             */
-/*   Updated: 2016/05/13 16:29:07 by sbeline          ###   ########.fr       */
+/*   Updated: 2016/05/15 06:51:16 by salomon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,12 @@
 
 int		ft_findstr(char *s1, char *s2)
 {
-	while (*s2)
+	while (*s2 && *s1 == *s2)
 	{
-		if (*s1 == *s2)
-			s1++;
-		if (*s1 == '\0')
-			return (1);
+		s1++;
 		s2++;
 	}
+	if (!*s2)
+		return (1);
 	return(0);
 }
