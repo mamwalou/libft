@@ -6,7 +6,7 @@
 /*   By: salomon <salomon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/15 17:06:24 by sbeline           #+#    #+#             */
-/*   Updated: 2016/05/22 17:18:21 by salomon          ###   ########.fr       */
+/*   Updated: 2016/06/01 03:25:07 by salomon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <wchar.h>
 # include <limits.h>
 # define BUF_SIZE 1496
+
 
 typedef	struct		s_fd
 {

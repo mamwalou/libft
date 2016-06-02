@@ -6,7 +6,7 @@
 /*   By: salomon <salomon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/05 14:19:40 by sbeline           #+#    #+#             */
-/*   Updated: 2016/05/22 21:36:39 by salomon          ###   ########.fr       */
+/*   Updated: 2016/06/01 18:50:01 by salomon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ int				ft_strsplit(char ***dst,char const *s, char c)
 		return (0);
 	len = find_occur(s, c) + 1;
 	*dst = malloc(sizeof(char*) * (len + 1));
-	//ft_putnbr(len);
 	i = 0;
 	pos = 0;
 	while (i < len)
@@ -74,6 +73,6 @@ int				ft_strsplit(char ***dst,char const *s, char c)
 		s = ft_strrchr(s, c);
 		i++;
 	}
-	dst[i + 1] = NULL;
+	dst[0][i] = NULL;
 	return (len);
 }

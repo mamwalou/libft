@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lenghtlong.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sbeline <sbeline@student.42.fr>            +#+  +:+       +#+        */
+/*   By: salomon <salomon@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/13 16:29:20 by sbeline           #+#    #+#             */
-/*   Updated: 2016/05/13 16:29:24 by sbeline          ###   ########.fr       */
+/*   Updated: 2016/06/01 15:18:03 by salomon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Includes/libft.h"
+#define LONG_LONG_MIN 9223372036854775807
 
 int			ft_lenghtlong(long long ll)
 {
